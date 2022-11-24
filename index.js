@@ -6,7 +6,34 @@ class Speak {
 
     createLayout = () => {
         let oDivContainer = document.getElementById('container');
+        let oDivSpeak = this.createDiv('speak');
+        let oText = this.createTextArea('', 'text-speak');
+        let oButton = this.createButton('Speak', 'button-speak', 'btn btn-info');
 
+        oDivContainer.appendChild(oDivSpeak);
+        oDivSpeak.appendChild(oText);
+        oDivSpeak.appendChild(oButton);
+
+    }
+
+    /**
+     * Função para criar o Elemento de Button
+     * 
+     * @param {string} sContent 
+     * @param {string} sId 
+     * @param {string} sClass 
+     * @returns 
+     */
+    createButton = (sContent = '', sId = '', sClass = '') => {
+        let oButton = document.createElement('button');
+        oButton.setAttribute('id', `buttonCard${sId}`);
+        oButton.setAttribute('class', sClass);
+        oButton.innerText = sContent;
+        oButton.addEventListener('click', () => {
+            removeCard(sId)
+        });
+
+        return oButton;
     }
 
     /**
@@ -44,3 +71,5 @@ class Speak {
         return oDiv;
     }
 }
+
+let start = new Speak();
