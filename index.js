@@ -4,10 +4,13 @@ class Speak {
         this.createLayout();
     }
 
+    /**
+     * Função responsável pela criação do Layout
+     */
     createLayout = () => {
         let oDivContainer = document.getElementById('container');
         let oDivSpeak = this.createDiv('speak');
-        let oText = this.createTextArea('', 'text-speak');
+        let oText = this.createTextArea('', 'text_speak');
         let oButton = this.createButton('Speak', 'button-speak', 'btn btn-info');
 
         oDivContainer.appendChild(oDivSpeak);
@@ -30,7 +33,7 @@ class Speak {
         oButton.setAttribute('class', sClass);
         oButton.innerText = sContent;
         oButton.addEventListener('click', () => {
-            removeCard(sId)
+            this.onClickSpeak();
         });
 
         return oButton;
@@ -46,7 +49,7 @@ class Speak {
      */
     createTextArea = (sContent = '', sId = '', sClass = '') => {
         let oTextArea = document.createElement('textarea');
-        oTextArea.setAttribute('id', `inputDescricao${sId}`);
+        oTextArea.setAttribute('id', sId);
         oTextArea.setAttribute('class', sClass);
         oTextArea.value = sContent;
         oTextArea.addEventListener('change', () => {
@@ -69,6 +72,21 @@ class Speak {
         oDiv.setAttribute('class', sClass);
 
         return oDiv;
+    }
+
+    getDataTextArea = () => {
+        let oTextArea = document.getElementById('text_speak');
+        if (oTextArea) {
+            return oTextArea.value;
+        }
+
+        return window.alert('Invalid content!');
+    }
+
+    onClickSpeak = () => {
+        let sSentence = this.getDataTextArea();
+        let oUtterance = new SpeechSynthesisUtterance(sSentence);
+        speechSynthesis.speak(oUtterance);
     }
 }
 
