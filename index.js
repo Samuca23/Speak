@@ -12,10 +12,12 @@ class Speak {
         let oDivSpeak = this.createDiv('speak');
         let oText = this.createTextArea('', 'text_speak');
         let oButton = this.createButton('Speak', 'button-speak', 'btn btn-info');
+        let oSelect = this.createListVoice();
 
         oDivContainer.appendChild(oDivSpeak);
         oDivSpeak.appendChild(oText);
         oDivSpeak.appendChild(oButton);
+        oDivSpeak.appendChild(oSelect);
 
     }
 
@@ -52,11 +54,23 @@ class Speak {
         oTextArea.setAttribute('id', sId);
         oTextArea.setAttribute('class', sClass);
         oTextArea.value = sContent;
-        oTextArea.addEventListener('change', () => {
-            updateCard(sId)
-        })
 
         return oTextArea;
+    }
+
+    createListVoice = () => {
+        let oSelect = document.createElement('select');
+        oSelect.setAttribute('id', 'select_voice');
+        let aVoice = this.getVoice(true);
+        
+        aVoice.forEach((oVoice, key) => {
+            let oOption = document.createElement('option');
+            oOption.setAttribute('value', key);
+            oOption.innerText = oVoice.name;
+            oSelect.appendChild(oOption);
+        });
+
+        return oSelect;
     }
 
     /**
@@ -83,9 +97,23 @@ class Speak {
         return window.alert('Invalid content!');
     }
 
+    getVoice = (bReturnAll = false) => {
+        let synth = window.speechSynthesis;
+        if (bReturnAll) {
+           return synth.getVoices();
+        } else {
+            let oSelect = document.getElementById('select_voice');
+            if (oSelect) {
+                return synth.getVoices()[oSelect.value];
+            }
+        }
+    }
+
     onClickSpeak = () => {
         let sSentence = this.getDataTextArea();
         let oUtterance = new SpeechSynthesisUtterance(sSentence);
+        let oVoice = this.getVoice();
+        oUtterance.voice = oVoice;
         speechSynthesis.speak(oUtterance);
     }
 }
