@@ -17,9 +17,9 @@ class Speak {
 
         oDivContainer.appendChild(oDivSpeak);
         oDivSpeak.appendChild(oText);
+        oDivSpeak.appendChild(oSelect);
         oDivSpeak.appendChild(oButtonSpeeak);
         oDivSpeak.appendChild(oButtonClear);
-        oDivSpeak.appendChild(oSelect);
 
     }
 
@@ -37,7 +37,7 @@ class Speak {
         oButton.setAttribute('class', sClass);
         oButton.innerText = sContent;
         oButton.addEventListener('click', () => {
-           this[sEvent]();
+            this[sEvent]();
         });
 
         return oButton;
@@ -60,11 +60,16 @@ class Speak {
         return oTextArea;
     }
 
+    /**
+     * Retorna a Lista de vozes.
+     * 
+     * @returns Object
+     */
     createListVoice = () => {
         let oSelect = document.createElement('select');
         oSelect.setAttribute('id', 'select_voice');
         let aVoice = this.getVoice(true);
-        
+
         aVoice.forEach((oVoice, key) => {
             let oOption = document.createElement('option');
             oOption.setAttribute('value', key);
@@ -90,6 +95,11 @@ class Speak {
         return oDiv;
     }
 
+    /**
+     * Retorna o Texto informado.
+     * 
+     * @returns alert()
+     */
     getDataTextArea = () => {
         let oTextArea = document.getElementById('text_speak');
         if (oTextArea) {
@@ -99,10 +109,16 @@ class Speak {
         return window.alert('Invalid content!');
     }
 
+    /**
+     * Função que retorna as vozes disponíveis ou a selecionada.
+     * 
+     * @param {boolean} bReturnAll 
+     * @returns 
+     */
     getVoice = (bReturnAll = false) => {
         let synth = window.speechSynthesis;
         if (bReturnAll) {
-           return synth.getVoices();
+            return synth.getVoices();
         } else {
             let oSelect = document.getElementById('select_voice');
             if (oSelect) {
@@ -111,6 +127,10 @@ class Speak {
         }
     }
 
+    /**
+     * Função responsável por executar a fala do
+     * texto informado ao clicar no Botão 'Speak'.
+     */
     onClickSpeak = () => {
         let sSentence = this.getDataTextArea();
         let oUtterance = new SpeechSynthesisUtterance(sSentence);
@@ -119,6 +139,10 @@ class Speak {
         speechSynthesis.speak(oUtterance);
     }
 
+    /**
+     * Função responsável por limpar o campo de texto 
+     * ao clicak no Botão 'Clear'.
+     */
     onClickClear = () => {
         let oTextArea = document.getElementById('text_speak');
         oTextArea.value = '';
