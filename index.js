@@ -11,12 +11,14 @@ class Speak {
         let oDivContainer = document.getElementById('container');
         let oDivSpeak = this.createDiv('speak');
         let oText = this.createTextArea('', 'text_speak');
-        let oButton = this.createButton('Speak', 'button-speak', 'btn btn-info');
+        let oButtonSpeeak = this.createButton('Speak', 'button-speak', 'btn btn-info', 'onClickSpeak');
+        let oButtonClear = this.createButton('Clear', 'button-clear', 'btn btn-warning', 'onClickClear');
         let oSelect = this.createListVoice();
 
         oDivContainer.appendChild(oDivSpeak);
         oDivSpeak.appendChild(oText);
-        oDivSpeak.appendChild(oButton);
+        oDivSpeak.appendChild(oButtonSpeeak);
+        oDivSpeak.appendChild(oButtonClear);
         oDivSpeak.appendChild(oSelect);
 
     }
@@ -29,13 +31,13 @@ class Speak {
      * @param {string} sClass 
      * @returns 
      */
-    createButton = (sContent = '', sId = '', sClass = '') => {
+    createButton = (sContent = '', sId = '', sClass = '', sEvent = "") => {
         let oButton = document.createElement('button');
         oButton.setAttribute('id', `buttonCard${sId}`);
         oButton.setAttribute('class', sClass);
         oButton.innerText = sContent;
         oButton.addEventListener('click', () => {
-            this.onClickSpeak();
+           this[sEvent]();
         });
 
         return oButton;
@@ -115,6 +117,11 @@ class Speak {
         let oVoice = this.getVoice();
         oUtterance.voice = oVoice;
         speechSynthesis.speak(oUtterance);
+    }
+
+    onClickClear = () => {
+        let oTextArea = document.getElementById('text_speak');
+        oTextArea.value = '';
     }
 }
 
