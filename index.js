@@ -89,7 +89,7 @@ class Speak {
      */
     createDiv = (sId, sClass) => {
         let oDiv = document.createElement('div');
-        oDiv.setAttribute('id', `div${sId}`);
+        oDiv.setAttribute('id', sId);
         oDiv.setAttribute('class', sClass);
 
         return oDiv;
